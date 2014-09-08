@@ -33,7 +33,7 @@ object Facebook extends Auth {
       ).get.map(_.json).map { js =>
         val id = (js \ "id").as[String]
         val email = (js \ "email").asOpt[String]
-        val user = User(Identity(id, "facebook"), (js \ "name").as[String], email , None)
+        val user = User(Identity(id, "facebook"), (js \ "name").as[String], email , Some(s"https://graph.facebook.com/$id/picture"))
         UserResponse(user, js)
       }
       userFuture.map(handle)
