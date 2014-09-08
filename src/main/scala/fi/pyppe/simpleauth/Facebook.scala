@@ -8,10 +8,8 @@ import scala.concurrent.{ExecutionContext, Future}
 
 object Facebook extends Auth {
 
-  case class Settings(clientId: String, clientSecret: String, scope: String)
-
   def initialize()(implicit app: Application, ec: ExecutionContext, r: Request[_]): Future[Result] = {
-    val Settings(clientId, clientSecret, scope) = settings()
+    val ProviderSettings(clientId, _, scope) = settings("facebook")
     Future.successful(redirect("https://www.facebook.com/dialog/oauth",
       "response_type" -> "code",
       "client_id" -> clientId,
@@ -22,7 +20,7 @@ object Facebook extends Auth {
 
   def callback(handle: UserResponse => Result)
               (implicit app: Application, ec: ExecutionContext, req: Request[_]): Future[Result] = {
-    val Settings(clientId, clientSecret, scope) = settings()
+    val ProviderSettings(clientId, clientSecret, scope) = settings("facebook")
     WS.url("https://graph.facebook.com/oauth/access_token").withQueryString(
       "client_id" -> clientId,
       "client_secret" -> clientSecret,
@@ -39,15 +37,6 @@ object Facebook extends Auth {
       }
       userFuture.map(handle)
     }
-  }
-
-  private def baseUrl()(implicit app: Application, r: Request[_]): String = {
-    app.configuration.getString("simple-auth.baseUrl").getOrElse(r.host)
-  }
-
-  private def settings()(implicit app: Application) = {
-    val c = app.configuration.getConfig("simple-auth.facebook").get
-    Settings(c.getString("clientId").get, c.getString("clientSecret").get, c.getString("scope").get)
   }
 
 }

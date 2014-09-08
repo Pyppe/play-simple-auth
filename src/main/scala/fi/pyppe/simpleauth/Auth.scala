@@ -17,6 +17,7 @@ object Auth {
                 (implicit app: Application, ec: ExecutionContext, req: Request[_]): Future[Result] = {
     provider match {
       case "facebook" => Facebook.initialize()
+      case "google"   => Google.initialize()
     }
   }
 
@@ -24,10 +25,13 @@ object Auth {
               (implicit app: Application, ec: ExecutionContext, req: Request[_]): Future[Result] = {
     provider match {
       case "facebook" => Facebook.callback(handle)
+      case "google"   => Google.callback(handle)
     }
   }
 
 }
+
+case class ProviderSettings(clientId: String, clientSecret: String, scope: String)
 
 trait Auth {
 
@@ -42,6 +46,14 @@ trait Auth {
     })
     Redirect(url)
   }
+
+  def settings(provider: String)(implicit app: Application): ProviderSettings = {
+    val c = app.configuration.getConfig(s"simple-auth.$provider").get
+    ProviderSettings(c.getString("clientId").get, c.getString("clientSecret").get, c.getString("scope").get)
+  }
+
+  def baseUrl()(implicit app: Application, r: Request[_]): String =
+    app.configuration.getString("simple-auth.baseUrl").getOrElse(r.host)
 
   def parseParams(body: String) =
     body.split("&").map { param =>
