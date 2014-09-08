@@ -23,7 +23,7 @@ object Google extends Auth {
     val ProviderSettings(clientId, clientSecret, scope) = settings("google")
     WS.url("https://accounts.google.com/o/oauth2/token").post(Map(
       "client_id" -> clientId,
-      //"redirect_uri" -> redirectUri("google"),
+      "redirect_uri" -> redirectUri("google"),
       "client_secret" -> clientSecret,
       "code" -> req.getQueryString("code").get,
       "grant_type" -> "authorization_code"

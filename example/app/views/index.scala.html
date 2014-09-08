@@ -1,0 +1,20 @@
+@(message: String)(implicit session: Session)
+
+@main("Welcome to Play") {
+
+  <h1>Hello</h1>
+  @if(!session.isEmpty) {
+    <ul>
+      @session.get("user.name").map { name =>
+        <li>Name: <strong>@name</strong></li>
+      }
+      @session.get("user.email").map { email =>
+        <li>Email: <strong>@email</strong></li>
+      }
+      @session.get("user.image").map { image =>
+        <img src="@image" />
+      }
+    </ul>
+  }
+
+}

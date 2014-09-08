@@ -24,6 +24,7 @@ object Facebook extends Auth {
     WS.url("https://graph.facebook.com/oauth/access_token").withQueryString(
       "client_id" -> clientId,
       "client_secret" -> clientSecret,
+      "redirect_uri" -> redirectUri("facebook"),
       "code" -> req.getQueryString("code").get
     ).get.flatMap { response =>
       val accessToken = parseParams(response.body)("access_token")

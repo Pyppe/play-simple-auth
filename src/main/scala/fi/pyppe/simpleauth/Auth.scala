@@ -70,11 +70,15 @@ trait Auth {
     }
   }
 
-  def parseParams(body: String) =
+  def parseParams(body: String): Map[String, String] = try {
     body.split("&").map { param =>
       param.split("=") match {
         case Array(key, value) => key -> value
       }
     }.toMap
+  } catch {
+    case t: Throwable =>
+      throw new RuntimeException(s"Error parsing callback parameters from $body", t)
+  }
 
 }
