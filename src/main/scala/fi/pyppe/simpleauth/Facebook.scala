@@ -13,7 +13,7 @@ object Facebook extends Auth {
     Future.successful(redirect("https://www.facebook.com/dialog/oauth",
       "response_type" -> "code",
       "client_id" -> clientId,
-      "redirect_uri" -> baseUrl(),
+      "redirect_uri" -> redirectUri("facebook"),
       "scope" -> scope
     ))
   }

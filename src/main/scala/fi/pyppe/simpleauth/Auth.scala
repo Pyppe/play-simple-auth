@@ -11,6 +11,8 @@ case class Identity(userId: String, provider: String)
 case class User(identity: Identity, name: String, email: Option[String], image: Option[String])
 case class UserResponse(user: User, json: JsValue)
 
+class ConfigurationException(msg: String) extends RuntimeException(msg)
+
 object Auth {
 
   def initialize(provider: String)
@@ -52,8 +54,21 @@ trait Auth {
     ProviderSettings(c.getString("clientId").get, c.getString("clientSecret").get, c.getString("scope").get)
   }
 
-  def baseUrl()(implicit app: Application, r: Request[_]): String =
-    app.configuration.getString("simple-auth.baseUrl").getOrElse(r.host)
+  def redirectUri(provider: String)(implicit app: Application, r: Request[_]): String = {
+    val key = "simple-auth.redirectUri"
+    app.configuration.getString(key) match {
+      case Some(redirectUri) =>
+        val providerRedirectUri = redirectUri.replace(":provider", provider)
+        if (redirectUri.startsWith("/")) {
+          val protocol = if (r.secure) "https://" else "http://"
+          s"$protocol${r.host}$providerRedirectUri"
+        } else {
+          providerRedirectUri
+        }
+      case None =>
+        throw new ConfigurationException(s"$key not defined in application.conf")
+    }
+  }
 
   def parseParams(body: String) =
     body.split("&").map { param =>
