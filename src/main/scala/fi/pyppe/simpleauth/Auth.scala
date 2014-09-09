@@ -20,6 +20,7 @@ object Auth {
     provider match {
       case "facebook" => Facebook.initialize()
       case "google"   => Google.initialize()
+      case "twitter"  => Twitter.initialize()
     }
   }
 
@@ -28,6 +29,7 @@ object Auth {
     provider match {
       case "facebook" => Facebook.callback(handle)
       case "google"   => Google.callback(handle)
+      case "twitter"  => Twitter.callback(handle)
     }
   }
 
