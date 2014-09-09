@@ -19,6 +19,7 @@ object Auth {
                 (implicit app: Application, ec: ExecutionContext, req: Request[_]): Future[Result] = {
     provider match {
       case "facebook" => Facebook.initialize()
+      case "github"   => Github.initialize()
       case "google"   => Google.initialize()
       case "twitter"  => Twitter.initialize()
     }
@@ -29,6 +30,7 @@ object Auth {
     provider match {
       case "facebook" => Facebook.callback(handle)
       case "google"   => Google.callback(handle)
+      case "github"   => Github.callback(handle)
       case "twitter"  => Twitter.callback(handle)
     }
   }

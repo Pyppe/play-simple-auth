@@ -44,7 +44,6 @@ object SimpleAuthBuild extends Build {
 object Publish {
   lazy val settings = Seq(
     publishMavenStyle := true,
-    //publishTo := Some(targetRepository),
     publishTo <<= version { (v: String) =>
       def nexusUrl(path: String) = s"https://oss.sonatype.org$path"
       if (v.trim.endsWith("SNAPSHOT"))

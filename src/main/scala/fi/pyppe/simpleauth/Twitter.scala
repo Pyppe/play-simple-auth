@@ -13,11 +13,13 @@ import scala.concurrent.{Future, ExecutionContext}
 
 object Twitter extends Auth {
 
+  private val Provider = "twitter"
+
   case class Keys(consumerKey: String, consumerSecret: String)
 
   def initialize()(implicit app: Application, ec: ExecutionContext, r: Request[_]): Future[Result] = {
     signedRequest("https://api.twitter.com/oauth/request_token", "POST", None,
-                  "oauth_callback" -> redirectUri("twitter")).map { response =>
+                  "oauth_callback" -> redirectUri(Provider)).map { response =>
       val token = parseParams(response.body)("oauth_token")
       redirect("https://api.twitter.com/oauth/authenticate", "oauth_token" -> token)
     }
@@ -43,7 +45,7 @@ object Twitter extends Auth {
         val id = (js \ "id_str").as[String]
         val name = (js \ "name").as[String]
         val image = (js \ "profile_image_url_https").asOpt[String]
-        val user = User(Identity("TODO", "twitter"), name, None, image)
+        val user = User(Identity(id, Provider), name, None, image)
         handle(UserResponse(user, js))
       }
     }
