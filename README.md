@@ -10,7 +10,7 @@ See demo application running in [http://play-simple-auth.pyppe.fi](http://play-s
 #### 1. Add dependency in `build.sbt`
 ```scala
 libraryDependencies ++= Seq(
-  ws, // play-simple-auth uses play-ws as a provided dependecy
+  ws, // play-simple-auth uses play-ws as a provided dependency
   "fi.pyppe" %% "play-simple-auth" % "1.0"
 )
 ```
