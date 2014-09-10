@@ -21,6 +21,7 @@ object Auth {
       case "facebook" => Facebook.initialize()
       case "github"   => Github.initialize()
       case "google"   => Google.initialize()
+      case "linkedin" => Linkedin.initialize()
       case "twitter"  => Twitter.initialize()
     }
   }
@@ -31,6 +32,7 @@ object Auth {
       case "facebook" => Facebook.callback(handle)
       case "google"   => Google.callback(handle)
       case "github"   => Github.callback(handle)
+      case "linkedin" => Linkedin.callback(handle)
       case "twitter"  => Twitter.callback(handle)
     }
   }
