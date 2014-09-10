@@ -74,6 +74,11 @@ simple-auth {
     clientSecret = "${GOOGLE_SECRET}"
     scope = "openid profile email"
   }
+  linkedin {
+    clientId = "${LINKEDIN_CLIENT_ID}"
+    clientSecret = "${LINKEDIN_SECRET}"
+    scope = "r_basicprofile r_emailaddress"
+  }
   twitter {
     consumerKey = "${TWITTER_CONSUMER_KEY}"
     consumerSecret = "${TWITTER_CONSUMER_SECRET}"

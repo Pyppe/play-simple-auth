@@ -1,19 +1,20 @@
 import sbt._
 import Keys._
+import xerial.sbt.Sonatype.SonatypeKeys
 import com.github.retronym.SbtOneJar
 
 object SimpleAuthBuild extends Build {
 
   lazy val buildSettings = Seq(
     organization := "fi.pyppe",
-    version      := "0.1-SNAPSHOT",
+    version      := "1.0",
     scalaVersion := "2.11.1",
     crossScalaVersions := Seq("2.11.1", "2.10.4"),
     crossVersion := CrossVersion.binary,
     exportJars   := true,
     homepage     := Some(url("https://github.com/Pyppe/play-simple-auth")),
     startYear    := Some(2014),
-    description  := "Simple authentication (Facebook, Google, Twitter)"
+    description  := "Simple authentication (Facebook, Github, Google, Linkedin, Twitter)"
   ) ++ Publish.settings
 
   val PlayVersion = "2.3.4"
@@ -65,5 +66,5 @@ object Publish {
         </developer>
       </developers>
     )
-  )
+  ) ++ xerial.sbt.Sonatype.sonatypeSettings
 }
