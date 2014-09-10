@@ -60,8 +60,7 @@ GET     /authenticate/:provider            controllers.Application.authenticate(
 GET     /authenticate/:provider/callback   controllers.Application.authenticateCallback(provider: String)
 ```
 
-
-Example configuration (defined in `application.conf`):
+#### 4. Define your provider settings in `application.conf`
 ```
 simple-auth {
   # Relative or absolute callback uri (same as you have defined in routes file)
