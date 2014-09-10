@@ -17,18 +17,25 @@ libraryDependencies ++= Seq(
 #### 2. Create two actions in a `Controller`
 For example:
 ```scala
+
 import fi.pyppe.simpleauth.{Auth, UserResponse}
+// Implicits we need:
+import play.api.Play.current
+import scala.concurrent.ExecutionContext.Implicits.global
 
-def authenticate(provider: String) = Action.async { implicit req =>
-  Auth.initialize(provider) // returns Future[Result]; concretely a redirect to given provider
-}
+object Application extends Controller {
 
-def authenticateCallback(provider: String) = Action.async { implicit req =>
-  Auth.callback(provider) { case UserResponse(user, userJson) =>
-    // Do anything you want with the user. Typically save/update to DB, and set a session.
-    // We will also provider the userJson JsValue for any specific needs.
-    val internalUserId = DB.insertOrUpdate(user) // imaginary save
-    Redirect("/").withSession("user.id" -> internalUserId, "user.name" -> user.name)
+  def authenticate(provider: String) = Action.async { implicit req =>
+    Auth.initialize(provider) // returns Future[Result]; concretely a redirect to given provider
+  }
+
+  def authenticateCallback(provider: String) = Action.async { implicit req =>
+    Auth.callback(provider) { case UserResponse(user, userJson) =>
+      // Do anything you want with the user. Typically save/update to DB, and set a session.
+      // We will also provider the userJson JsValue for any specific needs.
+      val internalUserId = DB.insertOrUpdate(user) // imaginary save
+      Redirect("/").withSession("user.id" -> internalUserId, "user.name" -> user.name)
+    }
   }
 }
 ```
