@@ -6,7 +6,7 @@ object SimpleAuthBuild extends Build {
 
   lazy val buildSettings = Seq(
     organization := "fi.pyppe",
-    version      := "0.1-SNAPSHOT",
+    version      := "1.0",
     scalaVersion := "2.11.1",
     crossScalaVersions := Seq("2.11.1", "2.10.4"),
     crossVersion := CrossVersion.binary,
