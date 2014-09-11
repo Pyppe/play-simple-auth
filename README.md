@@ -1,6 +1,6 @@
 # play-simple-auth
 
-Provides **simple** authentication via OAuth. Supported providers: *Facebook*, *Google*, *Github* and *Twitter*.
+Provides **simple** authentication via OAuth. Supported providers: *Facebook*, *Google*, *Github*, *Linkedin* and *Twitter*.
 
 See demo application running in [http://play-simple-auth.pyppe.fi](http://play-simple-auth.pyppe.fi)
 (source code in [Pyppe/play-simple-auth-example.git](https://github.com/Pyppe/play-simple-auth-example))
